@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.marving.boot.dao.Infra.InfraTenantMapper">
+
+    <sql id="tenant_column">
+        *
+    </sql>
+
+    <select id="findByCode" resultType="com.marving.boot.entity.Tenant">
+        SELECT
+        <include refid="tenant_column" />
+        FROM g_tenant
+        WHERE code=#{code}
+    </select>
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.marving.boot.dao.Infra.InfraTenantAdminMapper">
+
+    <sql id="tenant_admin_columns">
+        id,
+        create_time as createTime,
+        created_by as createdBy,
+        status,
+        update_time as updateTime,
+        updated_by as updatedBy,
+        phone,
+        tenant_code as tenantCode,
+        phone_vaild as phoneVaild,
+        verification_code as verificationCode,
+        verification_code_expire_date as verificationCodeExpireDate
+    </sql>
+
+    <select id="findByPhone" resultType="com.marving.boot.entity.tenant.TenantAdmin">
+        SELECT
+        <include refid="tenant_admin_columns" />
+        FROM t_tenant_admin
+        WHERE phone=#{phone}
+        AND tenant_code=#{tenantCode}
+    </select>
+
+    <update id="updateVerificationCode">
+        UPDATE t_tenant_admin
+        SET verification_code = #{code}
+        WHERE phone = #{phone}
+            AND tenant_code=#{tenantCode}
+    </update>
+
+    <select id="findValidPhoneByUnionId" resultType="java.lang.String">
+        SELECT phone
+        FROM t_tenant_admin
+        WHERE wx_union_id = #{unionId}
+            AND tenant_code=#{tenantCode}
+            AND phone_valid = true
+    </select>
+
+</mapper>
